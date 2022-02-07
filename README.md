@@ -4,9 +4,32 @@ Longitudinal studies of infants' brains are essential for research and clinical 
 
 ----------------
 ### Training a model using Infant-SynthSeg 
+Please put in the directories for the model/training labels/prior distributions in scripts/niral_scripts/train_infant.py and run
+```
+python3 -m scripts.niral_scripts.train_infant 
+```
 
 ### Applying our Infant-SynthSeg model on your data
+Apply the unet model on your data:
+
+```
+python3 -m scripts.niral_scripts.predict_infant [grayscale images dir] [dir to save the segmentations] [path to the .h5 model file] --out_posteriors [path for saving the posterior probabilities]
+```
+
+### Max-posterior merging
+
+```
+python3 -m scripts.niral_scripts.merge_infant [T1 segmentations dir] [T1 posterior dir] [T2 segmentation dir] [T2 posterior dir] [dir to save the merged segmantations] [dir to save the merged posteriors]
+```
+
+### island removal
+Please put in the directory of the segmentations and posteriors in scripts/niral_scripts/merge_infant.py and run:
+
+```
+python3 -m scripts.niral_scripts.island_processing 
+```
+
 
 ### References
 
-This project is based on the [SynthSeg](https://github.com/BBillot/SynthSeg) framework:
+This project is based on the [SynthSeg](https://github.com/BBillot/SynthSeg) framework. 
