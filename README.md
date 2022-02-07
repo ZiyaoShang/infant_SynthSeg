@@ -34,3 +34,14 @@ python3 -m scripts.niral_scripts.island_processing
 ### References
 
 This project is based on the [SynthSeg](https://github.com/BBillot/SynthSeg) framework. 
+
+**A Learning Strategy for Contrast-agnostic MRI Segmentation** \
+Benjamin Billot, Douglas N. Greve, Koen Van Leemput, Bruce Fischl, Juan Eugenio Iglesias*, Adrian V. Dalca* \
+*contributed equally \
+MIDL 2020 \
+[[link](http://proceedings.mlr.press/v121/billot20a.html) | [arxiv](https://arxiv.org/abs/2003.01995) | [bibtex](bibtex.txt)]
+
+**Partial Volume Segmentation of Brain MRI Scans of any Resolution and Contrast** \
+Benjamin Billot, Eleanor D. Robinson, Adrian V. Dalca, Juan Eugenio Iglesias \
+MICCAI 2020 \
+[[link](https://link.springer.com/chapter/10.1007/978-3-030-59728-3_18) | [arxiv](https://arxiv.org/abs/2004.10221) | [bibtex](bibtex.txt)]
