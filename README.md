@@ -4,7 +4,7 @@ Longitudinal studies of infants' brains are essential for research and clinical 
 
 ----------------
 ### Training a model using Infant-SynthSeg 
-Please put in the directories for the model, training labels, and prior distributions in scripts/niral_scripts/train_infant.py and run
+Please put in the directories containing the prior distributions/training label maps and the location to save the models in scripts/niral_scripts/train_infant.py and run
 ```
 python3 -m scripts.niral_scripts.train_infant 
 ```
