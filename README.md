@@ -4,10 +4,15 @@ Longitudinal studies of infants' brains are essential for research and clinical 
 
 ----------------
 ### Training a model using Infant-SynthSeg 
-Please put in the directories for the model/training labels/prior distributions in scripts/niral_scripts/train_infant.py and run
+Please put in the directories for the model, training labels, and prior distributions in scripts/niral_scripts/train_infant.py and run
 ```
 python3 -m scripts.niral_scripts.train_infant 
 ```
+Our training infant label maps are in data/infant_synthseg_training/training_labels.
+
+Our T1 priors are in data/infant_synthseg_training/T1merged.
+
+Our T2 priors are in data/infant_synthseg_training/T2merged.
 
 ### Applying our Infant-SynthSeg model on your data
 Apply the unet model on your data:
