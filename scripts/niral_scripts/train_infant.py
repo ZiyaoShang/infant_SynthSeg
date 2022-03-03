@@ -13,12 +13,11 @@ from SynthSeg.training import training
 import numpy as np
 
 # path training label maps
-# path_training_label_maps = '/home/turja/DCAN_label_maps'
-path_training_label_maps = '/home/ziyaos/final/final_new_masking/training_labels'
+path_training_label_maps = r'data/infant_synthseg_training/training_labels'
 # path of directory where the models will be saved during training
-path_model_dir = '/home/ziyaos/final/final_new_masking/T2models_re1'
-prior_means = '/home/ziyaos/final/final_new_masking/T2merged/prior_means.npy'
-prior_stds = '/home/ziyaos/final/final_new_masking/T2merged/prior_stds.npy'
+path_model_dir = r'/home/ziyaos/paper_version/models'
+prior_means = r'data/infant_synthseg_training/T1merged/prior_means.npy'
+prior_stds = r'data/infant_synthseg_training/T1merged/prior_stds.npy'
 
 path_generation_labels = [0, 14, 15, 16, 24, 77, 85, 170, 172, 2,  3,   4,   5,   7,   8,  10,  11,  12,  13, 17, 18,
                           21,  26,  28,  30,  31,  41,  42,  43,  44,  46,  47,  49,  50,  51,  52,  53,  54,  58,  60,
@@ -120,7 +119,8 @@ training(labels_dir=path_training_label_maps,
          prior_distributions='normal',
          use_generation_classes=0.5,
          n_channels=n_channels,
-         load_model_file='/home/ziyaos/final/final_new_masking/T2models/dice_032.h5'
+         # load_model_file='/home/ziyaos/final/final_new_masking/T2models/dice_032.h5'
+         load_model_file=None
          )
 
 
