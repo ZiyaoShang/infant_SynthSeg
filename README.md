@@ -28,8 +28,8 @@ The models we trained are at models/T1.h5 and models/T2.h5
 python3 -m scripts.niral_scripts.merge_infant [T1 segmentations dir] [T1 posterior dir] [T2 segmentation dir] [T2 posterior dir] [dir to save the merged segmantations] [dir to save the merged posteriors]
 ```
 
-### island removal
-Please put in the directory of the segmentations and posteriors in scripts/niral_scripts/merge_infant.py and run:
+### Re-merging labels & island removal
+Please put in the required directories and label list in scripts/niral_scripts/merge_infant.py and run:
 
 ```
 python3 -m scripts.niral_scripts.island_processing 
