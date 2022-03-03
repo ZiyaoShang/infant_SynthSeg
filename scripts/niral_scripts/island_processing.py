@@ -101,7 +101,7 @@ def get_islands(label_map_dir, save_map, threshold=None):
 
         islands_divided, num_islands = label(all_islands)
         print("there are " + str(num_islands) + " island components in " + label_map_path)
-        save_name = label_map_path.split('/')[-1].split('_')[0] + "_" +label_map_path.split('/')[-1].split('_')[1] + "_islands.nii.gz"
+        save_name = label_map_path.split('/')[-1].split('_')[0] + "_islands.nii.gz"
         print(os.path.join(save_map, save_name))
         utils.save_volume(volume=islands_divided, aff=aff, header=header,
                           path=os.path.join(save_map, save_name), dtype='int32')
