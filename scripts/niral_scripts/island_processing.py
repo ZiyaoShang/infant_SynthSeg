@@ -10,6 +10,28 @@ import os
 #      [[0, 0, 0], [0, 1, 0], [0, 0, 0]]]
 
 
+def fuse_labels(seg_dir, merge_CWM=True):
+    # Merge white matters
+    path_segs = utils.list_images_in_folder(seg_dir)
+
+    for label_map in path_segs:
+        WM_map, aff, header = utils.load_volume(label_map, im_only=False)
+        print("21" + str(np.any(WM_map == 21)))
+        print("61" + str(np.any(WM_map == 61)))
+        print("7" + str(np.any(WM_map == 7)))
+        print("46" + str(np.any(WM_map == 46)))
+        print("170" + str(np.any(WM_map == 170)))
+
+        WM_map[WM_map == 21] = 2
+        WM_map[WM_map == 61] = 41
+        WM_map[WM_map == 170] = 16
+        if merge_CWM:
+            WM_map[WM_map == 7] = 8
+            WM_map[WM_map == 46] = 47
+
+        utils.save_volume(volume=WM_map, aff=aff, header=header, path=label_map)
+
+
 def get_islands(label_map_dir, save_map, threshold=None):
     seg_paths = utils.list_images_in_folder(label_map_dir)
     for label_map_path in seg_paths:
@@ -127,7 +149,7 @@ def get_connected_label(x, y, z, seg, posterior, islands, label_list):
     return sorted(possible_labels, key=lambda lb: posterior_array[np.where(label_list == lb)])[-1]
 
 
-def clear_islands(label_dir, island_dir, posterior_dir, save_dir):
+def clear_islands(label_dir, island_dir, posterior_dir, save_dir, labels):
     """
 
     """
@@ -147,8 +169,6 @@ def clear_islands(label_dir, island_dir, posterior_dir, save_dir):
         seg = utils.load_volume(subject_paths[subject], im_only=True)
         islands, aff, header = utils.load_volume(island_map_paths[subject], im_only=False)
         posterior = utils.load_volume(posterior_paths[subject], im_only=True)
-        labels = [0, 14, 15, 16, 172, 2, 3, 4, 8, 10, 11, 12, 13, 17, 18, 21, 26, 28, 41, 42, 43, 47, 49, 50, 51, 52,
-                  53, 54, 58, 60, 61]
 
         label_list, _ = utils.get_list_labels(label_list=labels, labels_dir=subject_paths[subject],
                                               save_label_list=None,
@@ -184,27 +204,22 @@ def clear_islands(label_dir, island_dir, posterior_dir, save_dir):
 
 
 #
-get_islands(label_map_dir=r"/home/ziyaos/bootstrapping/6mo/merged_seg",
-            save_map=r"/home/ziyaos/bootstrapping/6mo/islands", threshold=15)
 
-clear_islands(label_dir="/home/ziyaos/bootstrapping/6mo/merged_seg",
-              island_dir="/home/ziyaos/bootstrapping/6mo/islands",
-              posterior_dir="/home/ziyaos/bootstrapping/6mo/merged_posterior",
-              save_dir="/home/ziyaos/bootstrapping/6mo/island_removed")
+# fuse labels
+fuse_labels(seg_dir=r"/home/ziyaos/bootstrapping/6mo/merged_seg", # The path to the segmentation maps, the fused maps will be saved in place
+            merge_CWM=True) # Whether or not to merge the Cerebellum white matter and grey matter. [7]->[8] and [46]->[47]
+
+# get and save the islands
+get_islands(label_map_dir=r"/home/ziyaos/bootstrapping/6mo/merged_seg", # the path to the segmentation maps
+            save_map=r"/home/ziyaos/bootstrapping/6mo/islands", # where to save the map containing the islands
+            threshold=15) # components larger than the threshold will not be modified
+
+# clear islands given an island map
+clear_islands(label_dir="/home/ziyaos/bootstrapping/6mo/merged_seg", # the path to the segmentation labels
+              island_dir="/home/ziyaos/bootstrapping/6mo/islands", # the path to the island maps
+              posterior_dir="/home/ziyaos/bootstrapping/6mo/merged_posterior", # the path to the merged posteriors
+              save_dir="/home/ziyaos/bootstrapping/6mo/island_removed", # the directory to the save the final label maps
+              labels=[0, 14, 15, 16, 172, 2, 3, 4, 8, 10, 11, 12, 13, 17, 18, 21, 26, 28, 41, 42, 43, 47, 49, 50, 51,
+                      52, 53, 54, 58, 60, 61]) # the list of labels the corresponds to the posteriors (the segmention labels when predicting)
 
 
-# clear_islands(label_dir="/home/ziyaos/UDenver/merged_seg",
-#               island_dir="/home/ziyaos/UDenver/islands",
-#               posterior_dir="/home/ziyaos/UDenver/merged_posterior",
-#               save_dir="/home/ziyaos/UDenver/islands_removed_15")
-
-#
-# get_islands(label_map_dir=r"/home/ziyaos/ziyao_data/new_labels/randomness_test/predictions/75_perc_rand/fuse_new_data/island_removed",
-#             save_map=r"/home/ziyaos/ziyao_data/new_labels/randomness_test/predictions/875_perc_rand/islands",
-#             threshold=15)
-#
-# clear_islands(label_dir="/home/ziyaos/ziyao_data/new_labels/randomness_test/predictions/875_perc_rand/merged_seg",
-#               island_dir="/home/ziyaos/ziyao_data/new_labels/randomness_test/predictions/875_perc_rand/islands",
-#               posterior_dir="/home/ziyaos/ziyao_data/new_labels/randomness_test/predictions/875_perc_rand/merged_posterior",
-#               save_dir="/home/ziyaos/ziyao_data/new_labels/randomness_test/predictions/875_perc_rand/island_removed")
-#
