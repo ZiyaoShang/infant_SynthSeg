@@ -9,7 +9,9 @@ Please put in the directories for the model, training labels, and prior distribu
 python3 -m scripts.niral_scripts.train_infant 
 ```
 The training infant label maps are in data/infant_synthseg_training/training_labels.
+
 The T1 priors are in data/infant_synthseg_training/T1merged.
+
 The T2 priors are in data/infant_synthseg_training/T2merged.
 
 ### Applying our Infant-SynthSeg model on your data
