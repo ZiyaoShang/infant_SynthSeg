@@ -219,7 +219,7 @@ clear_islands(label_dir="/home/ziyaos/bootstrapping/6mo/merged_seg", # the path 
               island_dir="/home/ziyaos/bootstrapping/6mo/islands", # the path to the island maps
               posterior_dir="/home/ziyaos/bootstrapping/6mo/merged_posterior", # the path to the merged posteriors
               save_dir="/home/ziyaos/bootstrapping/6mo/island_removed", # the directory to the save the final label maps
-              labels=[0, 14, 15, 16, 172, 2, 3, 4, 8, 10, 11, 12, 13, 17, 18, 21, 26, 28, 41, 42, 43, 47, 49, 50, 51,
-                      52, 53, 54, 58, 60, 61]) # the list of labels the corresponds to the posteriors (the segmention labels when predicting)
+              labels=[0, 14, 15, 16, 170, 172, 2, 3, 4, 7, 8, 10, 11, 12, 13, 17, 18, 21, 26, 28, 41, 42, 43, 46,
+                    47, 49, 50, 51, 52, 53, 54, 58, 60, 61]) # the list of labels the corresponds to the posteriors (the segmention labels when predicting)
 
 
