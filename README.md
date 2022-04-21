@@ -38,7 +38,7 @@ python3 -m scripts.niral_scripts.island_processing
 
 ## References
 
-This project is based on the [SynthSeg](https://github.com/BBillot/SynthSeg) framework. Additional tutorials could be found on the site.
+This project is based on the [SynthSeg](https://github.com/BBillot/SynthSeg) framework, where additional tutorials could also be found.
 
 **A Learning Strategy for Contrast-agnostic MRI Segmentation** \
 Benjamin Billot, Douglas N. Greve, Koen Van Leemput, Bruce Fischl, Juan Eugenio Iglesias*, Adrian V. Dalca* \
