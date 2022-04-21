@@ -217,8 +217,8 @@ def get_list_labels(label_list=None, labels_dir=None, save_label_list=None, FS_s
     # print(list(label_list))
     n_neutral_labels = 0
     if FS_sort:
-        neutral_FS_labels = [0, 14, 15, 16, 22, 23, 24, 72, 77, 80, 85, 101, 102, 103, 104, 105, 165, 170, 172, 251, 252, 253,
-                             254, 255, 258, 259, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340]
+        neutral_FS_labels = [0, 14, 15, 16, 22, 23, 24, 72, 77, 80, 85, 86, 101, 102, 103, 104, 105, 165, 170, 172, 251, 252, 253,
+                             254, 255, 257, 258, 259, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340]
         neutral = list()
         left = list()
         right = list()

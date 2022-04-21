@@ -109,6 +109,9 @@ def sample_intensity_stats_from_image(image, segmentation, labels_list, classes_
         if len(intensities) != 0:
             means[idx] = np.nanmedian(intensities)
             stds[idx] = median_absolute_deviation(intensities, nan_policy='omit')
+        else:
+            means[idx] = np.nan
+            stds[idx] = np.nan
 
     return np.stack([means, stds])
 
@@ -186,10 +189,35 @@ def sample_intensity_stats_from_single_dataset(image_dir, labels_dir, labels_lis
             stds[idx, :, channel] = stats[1, :]
 
     # compute prior parameters for mean/std
-    mean_means = np.mean(means, axis=0)
-    std_means = np.std(means, axis=0)
-    mean_stds = np.mean(stds, axis=0)
-    std_stds = np.std(stds, axis=0)
+    # shape of means = (#images, #labels, #chanels)
+
+    # replace all zeros with nan
+    # means[means == 0] = np.nan
+    # print(means[:, 0, :].shape)
+    # for i in means[:, 0, :]:
+    #     assert np.isnan(i[0]), str(i[0])
+
+    # the zeros in the background should not be ignored, so they are replaced into 0
+    # means[:, 0, :] = np.zeros(means[:, 0, :].shape)
+
+    # do the same with stds
+    # stds[stds == 0] = np.nan
+    # print(stds[:, 0, :].shape)
+    # for i in stds[:, 0, :]:
+    #     assert np.isnan(i[0]), str(i[0])
+    # stds[:, 0, :] = np.zeros(stds[:, 0, :].shape)
+    # print(stds)
+
+    # s = np.sum(stds, axis=0)
+    # inds_all = s == 0
+    # stds[:, inds_all[:, 0], :] = np.nan
+    # stds[:, 0, :] = np.zeros(stds[:, 0, :].shape)
+
+    # ignore nans when the following calculation
+    mean_means = np.nanmean(means, axis=0)
+    std_means = np.nanstd(means, axis=0)
+    mean_stds = np.nanmean(stds, axis=0)
+    std_stds = np.nanstd(stds, axis=0)
 
     # regroup prior parameters in two different arrays: one for the mean and one for the std
     prior_means = np.zeros((2 * n_channels, n_classes))
@@ -287,5 +315,7 @@ def build_intensity_stats(list_image_dir,
     # save files
     np.save(os.path.join(result_dir, 'prior_means.npy'), prior_means)
     np.save(os.path.join(result_dir, 'prior_stds.npy'), prior_stds)
+    # print(prior_means)
+    # print(prior_stds)
 
     return prior_means, prior_stds
