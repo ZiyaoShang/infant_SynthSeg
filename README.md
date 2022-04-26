@@ -14,6 +14,12 @@ Our T1 priors are in data/infant_synthseg_training/T1merged.
 
 Our T2 priors are in data/infant_synthseg_training/T2merged.
 
+#### If you need to generate intensity priors for your label maps
+Please put in the file paths and list of labels in concern, then run
+```
+python3 -m scripts.niral_scripts.intensity_estimation_infant
+```
+
 ## Applying our Infant-SynthSeg model on your data
 Apply a unet model on your data:
 
