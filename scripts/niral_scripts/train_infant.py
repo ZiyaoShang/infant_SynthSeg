@@ -12,13 +12,20 @@
 from SynthSeg.training import training
 import numpy as np
 
-# path training label maps
+# path to training label maps (templates)
 path_training_label_maps = r'data/infant_synthseg_training/training_labels'
+
 # path of directory where the models will be saved during training
 path_model_dir = r'/home/ziyaos/paper_version/models'
+
+# path to prior distributions
 prior_means = r'data/infant_synthseg_training/T1merged/prior_means.npy'
 prior_stds = r'data/infant_synthseg_training/T1merged/prior_stds.npy'
 
+# if needed, path to an existing model to load and train
+load_model_file = None
+
+# the labels SynthSeg will generate
 path_generation_labels = [0, 14, 15, 16, 24, 77, 85, 170, 172, 2,  3,   4,   5,   7,   8,  10,  11,  12,  13, 17, 18,
                           21,  26,  28,  30,  31,  41,  42,  43,  44,  46,  47,  49,  50,  51,  52,  53,  54,  58,  60,
                           61,  62,  63]
@@ -27,13 +34,14 @@ path_generation_labels = [0, 14, 15, 16, 24, 77, 85, 170, 172, 2,  3,   4,   5, 
 path_segmentation_labels = [0, 14, 15, 16, 170, 172, 2, 3, 4, 7, 8, 10, 11, 12, 13, 17, 18, 21, 26, 28, 41, 42, 43, 46,
                             47, 49, 50, 51, 52, 53, 54, 58, 60, 61]
 
-# path_generation_classes = np.array([0, 1, 2, 3, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 6, 17, 18, 6, 20, 21, 22, 23, 24,
-#                             25, 26, 27, 28, 29, 30, 6])
+# the set of labels to fuse. every label within each sub-tuple will use the same prior distribution (whenever
+# generation_classes is activted).
+# Note: 1, if fuse_labels is not None,  the generation labels must be FS-sorted.
+#       2, all labels present in fuse_labels must be unique
+fuse_labels = ((2,21,41,61), (16, 170), (7,46))
 
-# path_generation_labels = [0, 7, 46]
-# path_segmentation_labels = [0, 7, 46]
-path_generation_classes = np.array([0, 1, 2, 3, 4, 5, 6, 3, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 9, 22,
-                                    23, 24, 25, 9, 27, 28, 29, 13, 31, 32, 33, 34, 35, 36, 37, 38, 39, 9, 41, 42])
+# the chance generation_classes will be activated.
+use_generation_classes = 0.5
 
 # generation parameters
 target_res = None  # resolution of the output segmentation (the resolution of the training label maps by default)
@@ -83,6 +91,23 @@ wl2_epochs = 0  # number of pre-training epochs
 dice_epochs = 300  # number of training epochs
 steps_per_epoch = 3000
 
+#####################################################start training######################################################
+
+# create generation_classes
+def fuse_classes(generate_labels, merge):
+    res = np.arange(len(generate_labels))
+    if merge is not None:
+        for t in merge:
+            cvtto = np.where(generate_labels.astype('object') == t[0])[0][0]
+            for lab in t:
+                assert lab in generate_labels, 'merge label ' + str(t) + ' is not in the generation label list'
+                ind = np.where(generate_labels.astype('object') == lab)[0][0]
+                res[ind] = res[cvtto]
+    return res
+
+
+path_generation_classes = fuse_classes(path_generation_labels, fuse_labels)
+
 training(labels_dir=path_training_label_maps,
          model_dir=path_model_dir,
          path_generation_labels=path_generation_labels,
@@ -117,10 +142,9 @@ training(labels_dir=path_training_label_maps,
          prior_stds=prior_stds,
          mix_prior_and_random=True,
          prior_distributions='normal',
-         use_generation_classes=0.5,
+         use_generation_classes=use_generation_classes,
          n_channels=n_channels,
-         # load_model_file='/home/ziyaos/final/final_new_masking/T2models/dice_032.h5'
-         load_model_file=None
+         load_model_file=load_model_file
          )
 
 
