@@ -27,7 +27,7 @@ Apply a unet model on your data:
 python3 -m scripts.niral_scripts.predict_infant [grayscale images dir] [dir to save the segmentations] [path to the .h5 model file] --out_posteriors [dir for saving the posterior probabilities]
 ```
 The models we trained are at models/T1.h5 and models/T2.h5
-If you are using your own trained model, please updat the segmentation_label to what you have trained on at [scripts/niral_scripts/predict_infant](https://github.com/ZiyaoShang/infant_SynthSeg/blob/master/scripts/niral_scripts/predict_infant.py)
+If you are using your own trained model, please update "segmentation_label_list" to what you have trained on at [scripts/niral_scripts/predict_infant](https://github.com/ZiyaoShang/infant_SynthSeg/blob/master/scripts/niral_scripts/predict_infant.py)
 
 ## Max-posterior merging
 
