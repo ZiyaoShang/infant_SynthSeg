@@ -98,10 +98,11 @@ def fuse_classes(generate_labels, merge):
     res = np.arange(len(generate_labels))
     if merge is not None:
         for t in merge:
-            cvtto = np.where(generate_labels.astype('object') == t[0])[0][0]
+            # index of first element of each tuple
+            cvtto = np.where(np.array(generate_labels) == t[0])[0][0]
             for lab in t:
-                assert lab in generate_labels, 'merge label ' + str(t) + ' is not in the generation label list'
-                ind = np.where(generate_labels.astype('object') == lab)[0][0]
+                assert lab in generate_labels, 'merge label ' + str(lab) + ' is not in the generation label list'
+                ind = np.where(np.array(generate_labels) == lab)[0][0]
                 res[ind] = res[cvtto]
     return res
 
