@@ -96,9 +96,10 @@ def build_model_inputs(path_label_maps,
         list_affine_transforms = []
 
         for idx in indices:
-            # random float from 0-1
+            # We want the means/stds to be either all be random or all be priors, so we set the same randomizing float
+            # for both the means and the stds:
+            # float from 0-1 (zs mod)
             r = npr.uniform()
-            # print("__r= " + str(r))
 
             # add labels to inputs
             y = utils.load_volume(path_label_maps[idx], dtype='int', aff_ref=np.eye(4))
@@ -131,7 +132,7 @@ def build_model_inputs(path_label_maps,
                 else:
                     tmp_prior_means = prior_means
                 if (prior_means is not None) & mix_prior_and_random & (r > 0.5):
-                    print("means")
+                    print("no means")
                     tmp_prior_means = None
 
                 if isinstance(prior_stds, np.ndarray):
@@ -147,7 +148,7 @@ def build_model_inputs(path_label_maps,
 
                 temp_prior_distributions = prior_distributions
                 if (prior_stds is not None) & mix_prior_and_random & (r > 0.5):
-                    print("stds")
+                    print("no stds")
                     tmp_prior_stds = None
                     temp_prior_distributions = 'uniform'
 
@@ -173,9 +174,13 @@ def build_model_inputs(path_label_maps,
                 # print("tmp_classes_means[generation_classes] is: " + str(tmp_classes_means[generation_classes]))
                 # print(generation_classes)
                 # print(tmp_classes_means)
+
+                # Here, the generation classes only has a probability of “use_generation_classes” of being
+                # used (fused case). When the classes are not used, it will be set to its default: np.arange(n_labels)
+                # (zs mod)
                 temp_generation_classes = generation_classes
                 if npr.uniform() > use_generation_classes:
-                    print("classes not used")
+                    print("no classes")
                     temp_generation_classes = np.arange(n_labels)
                 # print(temp_generation_classes)
                 tmp_means = utils.add_axis(tmp_classes_means[temp_generation_classes], -1)
