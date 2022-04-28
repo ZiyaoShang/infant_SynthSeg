@@ -15,7 +15,7 @@ Our T1 priors are in data/infant_synthseg_training/T1merged.
 Our T2 priors are in data/infant_synthseg_training/T2merged.
 
 ### If you need to generate intensity priors for your label maps
-Please put in the file paths and list of labels to generate in scripts/niral_scripts/intensity_estimation_infant, then run
+Please put in the file paths and list of labels to generate in [scripts/niral_scripts/intensity_estimation_infant](https://github.com/ZiyaoShang/infant_SynthSeg/blob/master/scripts/niral_scripts/train_infant.py), then run
 ```
 python3 -m scripts.niral_scripts.intensity_estimation_infant
 ```
@@ -27,6 +27,7 @@ Apply a unet model on your data:
 python3 -m scripts.niral_scripts.predict_infant [grayscale images dir] [dir to save the segmentations] [path to the .h5 model file] --out_posteriors [dir for saving the posterior probabilities]
 ```
 The models we trained are at models/T1.h5 and models/T2.h5
+If you are using your own trained model, please updat the segmentation_label to what you have trained on at [/scripts/niral_scripts/predict_infant](https://github.com/ZiyaoShang/infant_SynthSeg/blob/master/scripts/niral_scripts/predict_infant.py)
 
 ## Max-posterior merging
 
@@ -35,7 +36,7 @@ python3 -m scripts.niral_scripts.merge_infant [T1 segmentations dir] [T1 posteri
 ```
 
 ## Re-merging labels & island removal
-Please put in the required directories and label list in scripts/niral_scripts/merge_infant.py and run:
+Please put in the required resource/saving directories and label list in [scripts/niral_scripts/island_processing](https://github.com/ZiyaoShang/infant_SynthSeg/blob/master/scripts/niral_scripts/island_processing.py) and run:
 
 ```
 python3 -m scripts.niral_scripts.island_processing 
