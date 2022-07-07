@@ -42,8 +42,8 @@ Please put in the required resource/saving directories and label list in [script
 python3 -m scripts.niral_scripts.island_processing 
 ```
 
-### Note
-The fuse_classes() in [scripts/niral_scripts/train_infant.py](https://github.com/ZiyaoShang/infant_SynthSeg/blob/master/scripts/niral_scripts/train_infant.py) that automates the process generating generation_classes for fused labels has not been thoroughly tested and may have problems. In this case, manually creating the generation_classes may be needed. (an example would be in [scripts/niral_scripts/generate_images_infant](https://github.com/ZiyaoShang/infant_SynthSeg/blob/master/scripts/niral_scripts/generate_images_infant.py)).   
+#### Note
+The newly added fuse_classes() in [scripts/niral_scripts/train_infant.py](https://github.com/ZiyaoShang/infant_SynthSeg/blob/master/scripts/niral_scripts/train_infant.py) that automates the process generating generation_classes for fused labels has not been thoroughly tested and may have problems. In this case, manually creating the generation_classes may be needed. (an example would be in [scripts/niral_scripts/generate_images_infant](https://github.com/ZiyaoShang/infant_SynthSeg/blob/master/scripts/niral_scripts/generate_images_infant.py)).   
 
 ## References
 
